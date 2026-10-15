@@ -40,13 +40,10 @@ export function FAQ() {
   return (
     <section id="faq" className="section-padding" style={{ backgroundColor: "var(--bg-primary)" }}>
       <div className="container" style={{ maxWidth: "800px" }}>
-        <div className="section-header">
-          <div className="badge badge-neutral" style={{ marginBottom: "12px" }}>
-            COMMON INQUIRIES
-          </div>
-          <h2 className="section-title">Frequently Asked Questions</h2>
+        <div className="section-header" style={{ marginBottom: "28px" }}>
+          <h1 className="section-title">Frequently Asked Questions</h1>
           <p className="section-subtitle">
-            Everything you need to know about image format identification, in-browser conversion, and privacy.
+            Answers about image format identification and privacy.
           </p>
         </div>
 

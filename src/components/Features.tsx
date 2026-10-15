@@ -46,13 +46,10 @@ export function Features() {
   return (
     <section id="features" className="section-padding" style={{ backgroundColor: "var(--bg-primary)" }}>
       <div className="container">
-        <div className="section-header">
-          <div className="badge badge-neutral" style={{ marginBottom: "12px" }}>
-            ENGINEERING EXCELLENCE
-          </div>
-          <h2 className="section-title">Built for Precision, Privacy & Speed</h2>
+        <div className="section-header" style={{ marginBottom: "28px" }}>
+          <h1 className="section-title">Features & Privacy</h1>
           <p className="section-subtitle">
-            Experience an image converter engineered with uncompromising attention to data security, format integrity, and instantaneous performance.
+            Client-side processing, deep format detection, and custom encoders.
           </p>
         </div>
 

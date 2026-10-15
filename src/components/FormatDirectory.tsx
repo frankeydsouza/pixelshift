@@ -107,13 +107,10 @@ export function FormatDirectory() {
   return (
     <section id="formats" className="section-padding" style={{ backgroundColor: "#FFFFFF", borderTop: "1px solid var(--border-light)" }}>
       <div className="container">
-        <div className="section-header">
-          <div className="badge badge-neutral" style={{ marginBottom: "12px" }}>
-            COMPREHENSIVE DIRECTORY
-          </div>
-          <h2 className="section-title">Supported Formats & Specs</h2>
+        <div className="section-header" style={{ marginBottom: "28px" }}>
+          <h1 className="section-title">Supported Formats</h1>
           <p className="section-subtitle">
-            Every format has distinct strengths in compression, color depth, and transparency. Compare specifications to choose the ideal target for your workflow.
+            Compare transparency, compression, and ideal use cases.
           </p>
 
           {/* Filter Tabs */}

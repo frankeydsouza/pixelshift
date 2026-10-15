@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowLeftRight, ShieldCheck, Sparkles, Menu, X } from "lucide-react";
+import { ArrowLeftRight, ShieldCheck, ArrowLeft, Menu, X } from "lucide-react";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,6 +16,8 @@ export function Navbar() {
     { label: "How It Works", href: "/how-it-works" },
     { label: "FAQ", href: "/faq" },
   ];
+
+  const isHome = pathname === "/";
 
   return (
     <header style={{
@@ -76,10 +78,10 @@ export function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigation Links with Active State */}
+        {/* Desktop Navigation Links */}
         <nav className="desktop-only" style={{
           alignItems: "center",
-          gap: "8px",
+          gap: "6px",
           fontSize: "14px",
           fontWeight: "500",
         }}>
@@ -90,7 +92,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 style={{
-                  padding: "6px 14px",
+                  padding: "6px 13px",
                   borderRadius: "var(--radius-sm)",
                   color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
                   backgroundColor: isActive ? "var(--bg-subtle)" : "transparent",
@@ -105,16 +107,21 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Desktop Right Action & Badge */}
-        <div className="desktop-only" style={{ alignItems: "center", gap: "12px" }}>
-          <div className="badge badge-success" style={{ padding: "6px 12px", fontSize: "12px" }}>
-            <ShieldCheck size={14} />
-            <span>100% In-Browser & Private</span>
-          </div>
-          {pathname !== "/" && (
-            <Link href="/" className="btn btn-primary btn-sm" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <Sparkles size={14} />
-              <span>Open Converter</span>
+        {/* Right Top Side: ONLY ONE element */}
+        <div className="desktop-only" style={{ alignItems: "center" }}>
+          {isHome ? (
+            <div className="badge badge-success" style={{ padding: "6px 12px", fontSize: "12px" }}>
+              <ShieldCheck size={14} />
+              <span>100% In-Browser & Private</span>
+            </div>
+          ) : (
+            <Link
+              href="/"
+              className="btn btn-primary btn-sm"
+              style={{ display: "flex", alignItems: "center", gap: "6px" }}
+            >
+              <ArrowLeft size={14} />
+              <span>Back to Converter</span>
             </Link>
           )}
         </div>
@@ -152,18 +159,12 @@ export function Navbar() {
             boxShadow: "var(--shadow-md)",
           }}
         >
-          <div className="badge badge-success" style={{ alignSelf: "flex-start", padding: "6px 12px", fontSize: "12px" }}>
-            <ShieldCheck size={14} />
-            <span>100% In-Browser & Private</span>
-          </div>
-
           <nav style={{
             display: "flex",
             flexDirection: "column",
             gap: "4px",
             fontSize: "14px",
             fontWeight: "600",
-            paddingTop: "6px",
           }}>
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -190,15 +191,15 @@ export function Navbar() {
             })}
           </nav>
 
-          {pathname !== "/" && (
+          {!isHome && (
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
               className="btn btn-primary"
-              style={{ width: "100%", justifyContent: "center", marginTop: "6px" }}
+              style={{ width: "100%", justifyContent: "center", marginTop: "4px", gap: "6px" }}
             >
-              <Sparkles size={16} />
-              <span>Return to Converter</span>
+              <ArrowLeft size={15} />
+              <span>Back to Converter</span>
             </Link>
           )}
         </div>

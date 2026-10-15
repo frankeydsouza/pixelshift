@@ -34,13 +34,10 @@ export function HowItWorks() {
   return (
     <section className="section-padding" style={{ backgroundColor: "#FFFFFF", borderTop: "1px solid var(--border-light)" }}>
       <div className="container">
-        <div className="section-header">
-          <div className="badge badge-neutral" style={{ marginBottom: "12px" }}>
-            SIMPLE WORKFLOW
-          </div>
-          <h2 className="section-title">How It Works</h2>
+        <div className="section-header" style={{ marginBottom: "28px" }}>
+          <h1 className="section-title">How It Works</h1>
           <p className="section-subtitle">
-            Zero sign-up, zero server uploads, and zero complex configurations. Convert any image format in four seamless steps.
+            Four simple steps to identify and convert image formats.
           </p>
         </div>
 
