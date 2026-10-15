@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Check, X, Shield, ArrowUpRight, HelpCircle } from "lucide-react";
-import { FORMAT_CATALOG } from "../utils/imageDetector";
+import { Check, X } from "lucide-react";
 
 export function FormatDirectory() {
   const [filter, setFilter] = useState<"all" | "web" | "vector" | "system">("all");
@@ -112,13 +111,23 @@ export function FormatDirectory() {
           <div className="badge badge-neutral" style={{ marginBottom: "12px" }}>
             COMPREHENSIVE DIRECTORY
           </div>
-          <h2 className="section-title">Supported Image Formats & Specifications</h2>
+          <h2 className="section-title">Supported Formats & Specs</h2>
           <p className="section-subtitle">
             Every format has distinct strengths in compression, color depth, and transparency. Compare specifications to choose the ideal target for your workflow.
           </p>
 
           {/* Filter Tabs */}
-          <div style={{ display: "inline-flex", padding: "4px", backgroundColor: "var(--bg-subtle)", borderRadius: "var(--radius-md)", marginTop: "16px" }}>
+          <div style={{
+            display: "inline-flex",
+            flexWrap: "wrap",
+            gap: "4px",
+            justifyContent: "center",
+            padding: "4px",
+            backgroundColor: "var(--bg-subtle)",
+            borderRadius: "var(--radius-md)",
+            marginTop: "16px",
+            maxWidth: "100%",
+          }}>
             {[
               { id: "all", label: "All Formats" },
               { id: "web", label: "Web & Performance" },
@@ -129,8 +138,8 @@ export function FormatDirectory() {
                 key={tab.id}
                 onClick={() => setFilter(tab.id as any)}
                 style={{
-                  padding: "6px 14px",
-                  fontSize: "13px",
+                  padding: "6px 12px",
+                  fontSize: "12px",
                   fontWeight: "600",
                   borderRadius: "var(--radius-sm)",
                   backgroundColor: filter === tab.id ? "#FFFFFF" : "transparent",
@@ -145,27 +154,40 @@ export function FormatDirectory() {
           </div>
         </div>
 
-        {/* Formats Table */}
+        {/* Mobile Horizontal Scroll Indicator */}
+        <div className="mobile-only" style={{
+          justifyContent: "center",
+          fontSize: "11px",
+          color: "var(--text-tertiary)",
+          marginBottom: "8px",
+          textAlign: "center",
+        }}>
+          <span>↔ Scroll horizontally to view full format specs</span>
+        </div>
+
+        {/* Formats Table Container */}
         <div style={{
           overflowX: "auto",
           border: "1px solid var(--border-light)",
           borderRadius: "var(--radius-lg)",
           boxShadow: "var(--shadow-sm)",
+          WebkitOverflowScrolling: "touch",
         }}>
           <table style={{
             width: "100%",
+            minWidth: "640px",
             borderCollapse: "collapse",
             textAlign: "left",
-            fontSize: "14px",
+            fontSize: "13px",
           }}>
             <thead>
               <tr style={{ backgroundColor: "var(--bg-subtle)", borderBottom: "1px solid var(--border-light)" }}>
-                <th style={{ padding: "14px 18px", fontWeight: "700", color: "var(--text-primary)" }}>Format</th>
-                <th style={{ padding: "14px 18px", fontWeight: "700", color: "var(--text-primary)" }}>Transparency</th>
-                <th style={{ padding: "14px 18px", fontWeight: "700", color: "var(--text-primary)" }}>Compression</th>
-                <th style={{ padding: "14px 18px", fontWeight: "700", color: "var(--text-primary)" }}>Best Used For</th>
-                <th style={{ padding: "14px 18px", fontWeight: "700", color: "var(--text-primary)" }}>Browser Support</th>
-                <th style={{ padding: "14px 18px", fontWeight: "700", color: "var(--text-primary)" }}>Compression Efficiency</th>
+                <th style={{ padding: "12px 16px", fontWeight: "700", color: "var(--text-primary)" }}>Format</th>
+                <th style={{ padding: "12px 16px", fontWeight: "700", color: "var(--text-primary)" }}>Transparency</th>
+                <th style={{ padding: "12px 16px", fontWeight: "700", color: "var(--text-primary)" }}>Compression</th>
+                <th style={{ padding: "12px 16px", fontWeight: "700", color: "var(--text-primary)" }}>Best Used For</th>
+                <th style={{ padding: "12px 16px", fontWeight: "700", color: "var(--text-primary)" }}>Browser Support</th>
+                <th style={{ padding: "12px 16px", fontWeight: "700", color: "var(--text-primary)" }}>Efficiency</th>
               </tr>
             </thead>
             <tbody>
@@ -177,34 +199,34 @@ export function FormatDirectory() {
                     backgroundColor: idx % 2 === 0 ? "#FFFFFF" : "var(--bg-primary)",
                   }}
                 >
-                  <td style={{ padding: "16px 18px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <td style={{ padding: "14px 16px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                       <span style={{ fontWeight: "700", color: "var(--text-primary)" }}>{item.code}</span>
-                      <span style={{ fontSize: "12px", color: "var(--text-tertiary)" }}>({item.name})</span>
+                      <span style={{ fontSize: "11px", color: "var(--text-tertiary)" }}>({item.name})</span>
                     </div>
                   </td>
-                  <td style={{ padding: "16px 18px" }}>
+                  <td style={{ padding: "14px 16px" }}>
                     {item.transparency ? (
-                      <span className="badge badge-success" style={{ fontSize: "11px" }}>
-                        <Check size={12} /> Supported
+                      <span className="badge badge-success" style={{ fontSize: "10px", padding: "2px 6px" }}>
+                        <Check size={11} /> Supported
                       </span>
                     ) : (
-                      <span className="badge badge-neutral" style={{ fontSize: "11px" }}>
-                        <X size={12} /> No Alpha
+                      <span className="badge badge-neutral" style={{ fontSize: "10px", padding: "2px 6px" }}>
+                        <X size={11} /> No Alpha
                       </span>
                     )}
                   </td>
-                  <td style={{ padding: "16px 18px", color: "var(--text-secondary)" }}>
+                  <td style={{ padding: "14px 16px", color: "var(--text-secondary)" }}>
                     {item.compression}
                   </td>
-                  <td style={{ padding: "16px 18px", color: "var(--text-secondary)", maxWidth: "280px" }}>
+                  <td style={{ padding: "14px 16px", color: "var(--text-secondary)", maxWidth: "240px" }}>
                     {item.idealFor}
                   </td>
-                  <td style={{ padding: "16px 18px", color: "var(--text-tertiary)" }}>
+                  <td style={{ padding: "14px 16px", color: "var(--text-tertiary)" }}>
                     {item.browserSupport}
                   </td>
-                  <td style={{ padding: "16px 18px" }}>
-                    <span className="badge badge-neutral" style={{ fontWeight: "600" }}>
+                  <td style={{ padding: "14px 16px" }}>
+                    <span className="badge badge-neutral" style={{ fontWeight: "600", fontSize: "11px" }}>
                       {item.ratioRating}
                     </span>
                   </td>

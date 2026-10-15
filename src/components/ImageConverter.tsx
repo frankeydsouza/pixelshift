@@ -10,15 +10,11 @@ import {
   Check,
   RefreshCw,
   Sliders,
-  Maximize2,
   Trash2,
   Archive,
   Layers,
-  Info,
   CheckCircle2,
   Eye,
-  FileCheck,
-  Sparkles,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import JSZip from "jszip";
@@ -26,7 +22,6 @@ import {
   extractImageMetadata,
   formatBytes,
   ImageMetadata,
-  FORMAT_CATALOG,
 } from "../utils/imageDetector";
 import {
   convertImage,
@@ -171,8 +166,8 @@ export function ImageConverter() {
 
       // Trigger subtle celebratory confetti
       confetti({
-        particleCount: 30,
-        spread: 60,
+        particleCount: 25,
+        spread: 50,
         origin: { y: 0.8 },
         colors: ["#1E293B", "#2563EB", "#64748B"],
       });
@@ -204,7 +199,7 @@ export function ImageConverter() {
               ...t,
               targetFormat: newFormat,
               options: { ...t.options, targetFormat: newFormat },
-              result: null, // Reset previous conversion result for new format
+              result: null,
             }
           : t
       )
@@ -236,7 +231,6 @@ export function ImageConverter() {
           new ClipboardItem({ [task.result.mimeType]: task.result.blob }),
         ]);
       } else {
-        // Fallback convert to PNG on the fly for clipboard compatibility
         const pngRes = await convertImage(task.result.blob, "clipboard.png", {
           targetFormat: "PNG",
           quality: 1,
@@ -328,9 +322,9 @@ export function ImageConverter() {
   };
 
   return (
-    <section id="converter" style={{ paddingBottom: "80px" }}>
+    <section id="converter" style={{ paddingBottom: "60px" }}>
       <div className="container">
-        {/* Upload Zone / Dropzone */}
+        {/* Responsive Upload Zone / Dropzone */}
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -341,12 +335,12 @@ export function ImageConverter() {
               : "2px dashed var(--border-medium)",
             borderRadius: "var(--radius-xl)",
             backgroundColor: isDragging ? "var(--bg-subtle)" : "var(--bg-surface)",
-            padding: tasks.length === 0 ? "54px 28px" : "32px 28px",
+            padding: tasks.length === 0 ? "clamp(28px, 6vw, 54px) 16px" : "clamp(20px, 4vw, 32px) 16px",
             textAlign: "center",
             boxShadow: "var(--shadow-sm)",
             transition: "all 0.2s ease-in-out",
             position: "relative",
-            marginBottom: "32px",
+            marginBottom: "24px",
           }}
         >
           <input
@@ -366,33 +360,33 @@ export function ImageConverter() {
           <div style={{ maxWidth: "560px", margin: "0 auto" }}>
             <div
               style={{
-                width: "56px",
-                height: "56px",
-                borderRadius: "16px",
+                width: "50px",
+                height: "50px",
+                borderRadius: "14px",
                 backgroundColor: "var(--bg-subtle)",
                 color: "var(--text-primary)",
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                marginBottom: "16px",
+                marginBottom: "14px",
                 border: "1px solid var(--border-light)",
               }}
             >
-              <Upload size={24} strokeWidth={2} />
+              <Upload size={22} strokeWidth={2} />
             </div>
 
-            <h3 style={{ fontSize: "20px", fontWeight: "700", marginBottom: "8px" }}>
+            <h3 style={{ fontSize: "clamp(18px, 4vw, 22px)", fontWeight: "700", marginBottom: "8px" }}>
               {isDragging ? "Drop your images here" : "Drag & drop images to identify and convert"}
             </h3>
-            <p style={{ fontSize: "14px", color: "var(--text-tertiary)", marginBottom: "20px" }}>
+            <p style={{ fontSize: "13px", color: "var(--text-tertiary)", marginBottom: "18px", lineHeight: 1.5 }}>
               Supports PNG, JPG, WebP, AVIF, BMP, ICO, SVG, TIFF, GIF, and HEIC • Or paste from clipboard (Ctrl+V)
             </p>
 
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", flexWrap: "wrap" }}>
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className="btn btn-primary"
-                style={{ padding: "10px 20px" }}
+                style={{ padding: "10px 22px" }}
               >
                 <FileImage size={16} />
                 <span>Browse Files</span>
@@ -401,31 +395,31 @@ export function ImageConverter() {
 
             {/* Quick Demo Samples */}
             {tasks.length === 0 && (
-              <div style={{ marginTop: "28px", paddingTop: "20px", borderTop: "1px solid var(--border-light)" }}>
-                <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.05em", display: "block", marginBottom: "12px" }}>
+              <div style={{ marginTop: "24px", paddingTop: "18px", borderTop: "1px solid var(--border-light)" }}>
+                <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.05em", display: "block", marginBottom: "10px" }}>
                   Or try with an instant sample
                 </span>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", flexWrap: "wrap" }}>
                   <button
                     onClick={() => loadSample("transparent-logo")}
                     className="btn btn-secondary btn-sm"
-                    style={{ fontSize: "12px", borderRadius: "var(--radius-full)" }}
+                    style={{ fontSize: "12px", borderRadius: "var(--radius-full)", padding: "5px 12px" }}
                   >
-                    <span>⚡ Sample 1: Transparent PNG Logo</span>
+                    <span>⚡ Transparent PNG Logo</span>
                   </button>
                   <button
                     onClick={() => loadSample("photo-scenery")}
                     className="btn btn-secondary btn-sm"
-                    style={{ fontSize: "12px", borderRadius: "var(--radius-full)" }}
+                    style={{ fontSize: "12px", borderRadius: "var(--radius-full)", padding: "5px 12px" }}
                   >
-                    <span>⚡ Sample 2: Scenery JPEG Photo</span>
+                    <span>⚡ Scenery JPG Photo</span>
                   </button>
                   <button
                     onClick={() => loadSample("vector-badge")}
                     className="btn btn-secondary btn-sm"
-                    style={{ fontSize: "12px", borderRadius: "var(--radius-full)" }}
+                    style={{ fontSize: "12px", borderRadius: "var(--radius-full)", padding: "5px 12px" }}
                   >
-                    <span>⚡ Sample 3: WebP Vector Badge</span>
+                    <span>⚡ WebP Badge</span>
                   </button>
                 </div>
               </div>
@@ -440,29 +434,29 @@ export function ImageConverter() {
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: "16px",
-            marginBottom: "20px",
-            padding: "14px 20px",
+            gap: "12px",
+            marginBottom: "16px",
+            padding: "12px 16px",
             backgroundColor: "var(--bg-surface)",
             borderRadius: "var(--radius-lg)",
             border: "1px solid var(--border-light)",
             boxShadow: "var(--shadow-xs)",
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <span style={{ fontWeight: "700", fontSize: "15px", color: "var(--text-primary)" }}>
-                Uploaded Images ({tasks.length})
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <span style={{ fontWeight: "700", fontSize: "14px", color: "var(--text-primary)" }}>
+                Files ({tasks.length})
               </span>
-              <span className="badge badge-neutral">
+              <span className="badge badge-neutral" style={{ fontSize: "11px" }}>
                 {tasks.filter((t) => t.result).length} / {tasks.length} Converted
               </span>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className="btn btn-secondary btn-sm"
               >
-                <Upload size={14} />
+                <Upload size={13} />
                 <span>Add More</span>
               </button>
 
@@ -471,7 +465,7 @@ export function ImageConverter() {
                 className="btn btn-primary btn-sm"
                 disabled={tasks.every((t) => t.isConverting)}
               >
-                <RefreshCw size={14} className={tasks.some((t) => t.isConverting) ? "animate-spin" : ""} />
+                <RefreshCw size={13} className={tasks.some((t) => t.isConverting) ? "animate-spin" : ""} />
                 <span>Convert All</span>
               </button>
 
@@ -481,8 +475,8 @@ export function ImageConverter() {
                   className="btn btn-secondary btn-sm"
                   disabled={isZipping}
                 >
-                  <Archive size={14} />
-                  <span>{isZipping ? "Creating ZIP..." : "Download All as ZIP"}</span>
+                  <Archive size={13} />
+                  <span>{isZipping ? "Zipping..." : "Download ZIP"}</span>
                 </button>
               )}
 
@@ -491,7 +485,7 @@ export function ImageConverter() {
                 className="btn btn-subtle btn-sm"
                 title="Clear all images"
               >
-                <Trash2 size={14} />
+                <Trash2 size={13} />
                 <span>Clear</span>
               </button>
             </div>
@@ -502,10 +496,11 @@ export function ImageConverter() {
         {tasks.length > 1 && (
           <div style={{
             display: "flex",
-            gap: "12px",
+            gap: "10px",
             overflowX: "auto",
-            paddingBottom: "12px",
-            marginBottom: "24px",
+            paddingBottom: "10px",
+            marginBottom: "20px",
+            WebkitOverflowScrolling: "touch",
           }}>
             {tasks.map((task) => {
               const isActive = task.id === activeTask?.id;
@@ -516,7 +511,7 @@ export function ImageConverter() {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "10px",
+                    gap: "8px",
                     padding: "8px 12px",
                     backgroundColor: isActive ? "var(--bg-surface)" : "var(--bg-subtle)",
                     border: isActive
@@ -524,7 +519,8 @@ export function ImageConverter() {
                       : "1px solid var(--border-light)",
                     borderRadius: "var(--radius-md)",
                     cursor: "pointer",
-                    minWidth: "220px",
+                    minWidth: "180px",
+                    flexShrink: 0,
                     transition: "all 0.15s ease",
                     boxShadow: isActive ? "var(--shadow-sm)" : "none",
                   }}
@@ -533,16 +529,17 @@ export function ImageConverter() {
                     src={task.metadata.previewUrl}
                     alt={task.file.name}
                     style={{
-                      width: "36px",
-                      height: "36px",
+                      width: "32px",
+                      height: "32px",
                       borderRadius: "6px",
                       objectFit: "cover",
                       border: "1px solid var(--border-light)",
+                      flexShrink: 0,
                     }}
                   />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontWeight: "600",
                       color: "var(--text-primary)",
                       overflow: "hidden",
@@ -551,12 +548,12 @@ export function ImageConverter() {
                     }}>
                       {task.file.name}
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "2px" }}>
-                      <span className="badge badge-neutral" style={{ fontSize: "10px", padding: "2px 6px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "2px" }}>
+                      <span className="badge badge-neutral" style={{ fontSize: "9px", padding: "1px 5px" }}>
                         {task.metadata.detectedFormat.format}
                       </span>
                       <ArrowRight size={10} color="var(--text-muted)" />
-                      <span className="badge badge-brand" style={{ fontSize: "10px", padding: "2px 6px" }}>
+                      <span className="badge badge-brand" style={{ fontSize: "9px", padding: "1px 5px" }}>
                         {task.targetFormat}
                       </span>
                     </div>
@@ -569,7 +566,7 @@ export function ImageConverter() {
                     style={{ color: "var(--text-muted)", padding: "4px" }}
                     title="Remove"
                   >
-                    <Trash2 size={13} />
+                    <Trash2 size={12} />
                   </button>
                 </div>
               );
@@ -579,27 +576,28 @@ export function ImageConverter() {
 
         {/* Active Task Workspace */}
         {activeTask && (
-          <div className="card" style={{ padding: "32px", marginBottom: "32px" }}>
+          <div className="card" style={{ padding: "clamp(18px, 4vw, 32px)", marginBottom: "28px" }}>
             {/* 1. Identification Header Banner */}
             <div style={{
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "space-between",
               flexWrap: "wrap",
-              gap: "20px",
-              paddingBottom: "24px",
+              gap: "16px",
+              paddingBottom: "20px",
               borderBottom: "1px solid var(--border-light)",
-              marginBottom: "28px",
+              marginBottom: "24px",
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", minWidth: 0, flex: "1 1 260px" }}>
                 <div style={{
                   position: "relative",
-                  width: "68px",
-                  height: "68px",
-                  borderRadius: "12px",
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "10px",
                   overflow: "hidden",
                   border: "1px solid var(--border-medium)",
                   backgroundColor: "#F1F5F9",
+                  flexShrink: 0,
                 }}>
                   <img
                     src={activeTask.metadata.previewUrl}
@@ -607,55 +605,61 @@ export function ImageConverter() {
                     style={{ width: "100%", height: "100%", objectFit: "contain" }}
                   />
                 </div>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                    <span className="badge badge-neutral" style={{ backgroundColor: "#0F172A", color: "#FFFFFF", border: "none" }}>
-                      IDENTIFIED FORMAT
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginBottom: "2px" }}>
+                    <span className="badge badge-neutral" style={{ backgroundColor: "#0F172A", color: "#FFFFFF", border: "none", fontSize: "10px", padding: "2px 6px" }}>
+                      DETECTED
                     </span>
-                    <span style={{ fontSize: "18px", fontWeight: "700", color: "var(--text-primary)" }}>
+                    <span style={{ fontSize: "clamp(15px, 3.5vw, 17px)", fontWeight: "700", color: "var(--text-primary)" }}>
                       {activeTask.metadata.detectedFormat.name} ({activeTask.metadata.detectedFormat.format})
                     </span>
                   </div>
-                  <p style={{ fontSize: "13px", color: "var(--text-tertiary)" }}>
-                    Original File: <span style={{ color: "var(--text-secondary)", fontWeight: "500" }}>{activeTask.file.name}</span>
+                  <p style={{
+                    fontSize: "12px",
+                    color: "var(--text-tertiary)",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}>
+                    File: <span style={{ color: "var(--text-secondary)", fontWeight: "500" }}>{activeTask.file.name}</span>
                   </p>
                 </div>
               </div>
 
               {/* Detected Specs Badges */}
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                <div className="badge badge-neutral" title="File Size">
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+                <div className="badge badge-neutral" style={{ fontSize: "11px" }}>
                   <span>Size:</span>
                   <strong>{activeTask.metadata.formattedSize}</strong>
                 </div>
                 {activeTask.metadata.width > 0 && (
                   <>
-                    <div className="badge badge-neutral" title="Dimensions">
-                      <span>Dimensions:</span>
-                      <strong>{activeTask.metadata.width} × {activeTask.metadata.height} px</strong>
+                    <div className="badge badge-neutral" style={{ fontSize: "11px" }}>
+                      <span>Res:</span>
+                      <strong>{activeTask.metadata.width}×{activeTask.metadata.height}</strong>
                     </div>
-                    <div className="badge badge-neutral" title="Aspect Ratio">
+                    <div className="badge badge-neutral" style={{ fontSize: "11px" }}>
                       <span>Ratio:</span>
                       <strong>{activeTask.metadata.aspectRatio}</strong>
                     </div>
                   </>
                 )}
-                <div className={activeTask.metadata.hasAlphaChannel ? "badge badge-info" : "badge badge-neutral"}>
-                  <Layers size={12} />
-                  <span>{activeTask.metadata.hasAlphaChannel ? "Alpha Transparency Detected" : "Solid (No Alpha)"}</span>
+                <div className={activeTask.metadata.hasAlphaChannel ? "badge badge-info" : "badge badge-neutral"} style={{ fontSize: "11px" }}>
+                  <Layers size={11} />
+                  <span>{activeTask.metadata.hasAlphaChannel ? "Alpha" : "Solid"}</span>
                 </div>
               </div>
             </div>
 
             {/* 2. Choose Target Format Selection Grid */}
-            <div style={{ marginBottom: "28px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+            <div style={{ marginBottom: "24px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "10px", marginBottom: "14px" }}>
                 <div>
-                  <h4 style={{ fontSize: "16px", fontWeight: "700", color: "var(--text-primary)" }}>
-                    Select New Target Format
+                  <h4 style={{ fontSize: "15px", fontWeight: "700", color: "var(--text-primary)" }}>
+                    Select Target Format
                   </h4>
-                  <p style={{ fontSize: "13px", color: "var(--text-tertiary)" }}>
-                    Choose any target format to convert this {activeTask.metadata.detectedFormat.format} file into:
+                  <p style={{ fontSize: "12px", color: "var(--text-tertiary)" }}>
+                    Convert this {activeTask.metadata.detectedFormat.format} into:
                   </p>
                 </div>
                 <button
@@ -663,16 +667,16 @@ export function ImageConverter() {
                   className="btn btn-secondary btn-sm"
                   style={{ display: "flex", alignItems: "center", gap: "6px" }}
                 >
-                  <Sliders size={14} />
-                  <span>{showAdvanced ? "Hide Adjustments" : "Tuning & Resize"}</span>
+                  <Sliders size={13} />
+                  <span>{showAdvanced ? "Hide Controls" : "Resize & Tuning"}</span>
                 </button>
               </div>
 
-              {/* Format Cards Grid */}
+              {/* Responsive Format Cards Grid */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))",
-                gap: "12px",
+                gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))",
+                gap: "10px",
               }}>
                 {TARGET_FORMATS.map((fmt) => {
                   const isSelected = activeTask.targetFormat === fmt.id;
@@ -684,7 +688,7 @@ export function ImageConverter() {
                       onClick={() => handleFormatChange(fmt.id)}
                       style={{
                         textAlign: "left",
-                        padding: "14px",
+                        padding: "10px 12px",
                         borderRadius: "var(--radius-md)",
                         backgroundColor: isSelected ? "var(--bg-subtle)" : "var(--bg-surface)",
                         border: isSelected
@@ -696,14 +700,14 @@ export function ImageConverter() {
                         position: "relative",
                       }}
                     >
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-                        <span style={{ fontSize: "15px", fontWeight: "700", color: "var(--text-primary)" }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
+                        <span style={{ fontSize: "14px", fontWeight: "700", color: "var(--text-primary)" }}>
                           {fmt.label}
                         </span>
                         {isSelected && (
                           <div style={{
-                            width: "18px",
-                            height: "18px",
+                            width: "16px",
+                            height: "16px",
                             borderRadius: "50%",
                             backgroundColor: "var(--accent-primary)",
                             color: "#FFFFFF",
@@ -711,16 +715,16 @@ export function ImageConverter() {
                             alignItems: "center",
                             justifyContent: "center",
                           }}>
-                            <Check size={11} strokeWidth={3} />
+                            <Check size={10} strokeWidth={3} />
                           </div>
                         )}
                       </div>
 
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "4px" }}>
                         <span style={{
-                          fontSize: "10px",
+                          fontSize: "9px",
                           fontWeight: "700",
-                          padding: "2px 6px",
+                          padding: "1px 5px",
                           borderRadius: "4px",
                           backgroundColor: isSelected ? "var(--border-medium)" : "var(--bg-subtle)",
                           color: "var(--text-secondary)",
@@ -728,13 +732,13 @@ export function ImageConverter() {
                           {fmt.tag}
                         </span>
                         {isSourceFormat && (
-                          <span style={{ fontSize: "10px", color: "var(--text-tertiary)" }}>
+                          <span style={{ fontSize: "9px", color: "var(--text-tertiary)" }}>
                             (Current)
                           </span>
                         )}
                       </div>
 
-                      <p style={{ fontSize: "11px", color: "var(--text-tertiary)", lineHeight: 1.35 }}>
+                      <p style={{ fontSize: "10px", color: "var(--text-tertiary)", lineHeight: 1.3 }}>
                         {fmt.desc}
                       </p>
                     </button>
@@ -743,28 +747,25 @@ export function ImageConverter() {
               </div>
             </div>
 
-            {/* 3. Advanced Tuning Drawer (Resizing, Quality, Background Fill) */}
+            {/* 3. Advanced Tuning Drawer */}
             {showAdvanced && (
               <div style={{
                 backgroundColor: "var(--bg-subtle)",
                 borderRadius: "var(--radius-md)",
-                padding: "20px",
-                marginBottom: "28px",
+                padding: "16px",
+                marginBottom: "24px",
                 border: "1px solid var(--border-light)",
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                gap: "24px",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: "20px",
               }}>
-                {/* Quality Slider (for lossy formats) */}
+                {/* Quality Slider */}
                 {["JPEG", "WEBP", "AVIF"].includes(activeTask.targetFormat) && (
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
-                      <label style={{ fontSize: "13px", fontWeight: "600", color: "var(--text-primary)" }}>
-                        Compression Quality
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
+                      <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--text-primary)" }}>
+                        Quality ({Math.round((activeTask.options.quality || 0.9) * 100)}%)
                       </label>
-                      <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--accent-primary)" }}>
-                        {Math.round((activeTask.options.quality || 0.9) * 100)}%
-                      </span>
                     </div>
                     <input
                       type="range"
@@ -775,20 +776,20 @@ export function ImageConverter() {
                       onChange={(e) => updateActiveOptions({ quality: Number(e.target.value) / 100 })}
                       style={{ width: "100%", accentColor: "var(--accent-primary)", cursor: "pointer" }}
                     />
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "var(--text-tertiary)", marginTop: "4px" }}>
-                      <span>Small File (10%)</span>
-                      <span>Balanced (90%)</span>
-                      <span>Max Fidelity (100%)</span>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", color: "var(--text-tertiary)", marginTop: "2px" }}>
+                      <span>10% (Small)</span>
+                      <span>90% (Standard)</span>
+                      <span>100%</span>
                     </div>
                   </div>
                 )}
 
                 {/* Scale / Resize Preset */}
                 <div>
-                  <label style={{ fontSize: "13px", fontWeight: "600", color: "var(--text-primary)", display: "block", marginBottom: "8px" }}>
-                    Output Dimensions Scale
+                  <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--text-primary)", display: "block", marginBottom: "6px" }}>
+                    Scale Output
                   </label>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                     {[
                       { label: "25%", val: 0.25 },
                       { label: "50%", val: 0.5 },
@@ -803,27 +804,22 @@ export function ImageConverter() {
                           key={s.label}
                           onClick={() => updateActiveOptions({ scale: s.val })}
                           className={`btn btn-sm ${isCurr ? "btn-primary" : "btn-secondary"}`}
-                          style={{ padding: "4px 10px", fontSize: "12px" }}
+                          style={{ padding: "3px 8px", fontSize: "11px" }}
                         >
                           {s.label}
                         </button>
                       );
                     })}
                   </div>
-                  {activeTask.metadata.width > 0 && (
-                    <span style={{ display: "block", fontSize: "11px", color: "var(--text-tertiary)", marginTop: "6px" }}>
-                      Resulting: {Math.round(activeTask.metadata.width * (activeTask.options.scale || 1))} × {Math.round(activeTask.metadata.height * (activeTask.options.scale || 1))} px
-                    </span>
-                  )}
                 </div>
 
-                {/* Background Fill (for transparent to JPG/BMP conversion) */}
+                {/* Background Fill */}
                 {activeTask.metadata.hasAlphaChannel && ["JPEG", "BMP"].includes(activeTask.targetFormat) && (
                   <div>
-                    <label style={{ fontSize: "13px", fontWeight: "600", color: "var(--text-primary)", display: "block", marginBottom: "8px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--text-primary)", display: "block", marginBottom: "6px" }}>
                       Background Fill Color
                     </label>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
                       {[
                         { label: "White", color: "#FFFFFF" },
                         { label: "Black", color: "#000000" },
@@ -834,9 +830,9 @@ export function ImageConverter() {
                           key={bg.label}
                           onClick={() => updateActiveOptions({ backgroundColor: bg.color })}
                           style={{
-                            padding: "6px 12px",
+                            padding: "4px 10px",
                             borderRadius: "6px",
-                            fontSize: "12px",
+                            fontSize: "11px",
                             fontWeight: "600",
                             border: activeTask.options.backgroundColor === bg.color
                               ? "2px solid var(--accent-primary)"
@@ -855,16 +851,16 @@ export function ImageConverter() {
                 {/* ICO Size Selector */}
                 {activeTask.targetFormat === "ICO" && (
                   <div>
-                    <label style={{ fontSize: "13px", fontWeight: "600", color: "var(--text-primary)", display: "block", marginBottom: "8px" }}>
-                      Icon Size Preset
+                    <label style={{ fontSize: "12px", fontWeight: "600", color: "var(--text-primary)", display: "block", marginBottom: "6px" }}>
+                      Icon Size
                     </label>
-                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                       {[16, 32, 48, 64, 128, 256].map((sz) => (
                         <button
                           key={sz}
                           onClick={() => updateActiveOptions({ icoSize: sz })}
                           className={`btn btn-sm ${(activeTask.options.icoSize || 64) === sz ? "btn-primary" : "btn-secondary"}`}
-                          style={{ padding: "4px 8px", fontSize: "12px" }}
+                          style={{ padding: "3px 6px", fontSize: "11px" }}
                         >
                           {sz}px
                         </button>
@@ -876,14 +872,14 @@ export function ImageConverter() {
             )}
 
             {/* 4. Convert Action Button */}
-            <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "28px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", marginBottom: "24px" }}>
               <button
                 onClick={() => runConversion(activeTask.id)}
                 disabled={activeTask.isConverting}
-                className="btn btn-primary btn-lg"
-                style={{ minWidth: "220px", gap: "10px" }}
+                className="btn btn-primary"
+                style={{ padding: "12px 24px", minWidth: "200px", flex: "1 1 auto", maxWidth: "340px", gap: "8px" }}
               >
-                <RefreshCw size={18} className={activeTask.isConverting ? "animate-spin" : ""} />
+                <RefreshCw size={16} className={activeTask.isConverting ? "animate-spin" : ""} />
                 <span>
                   {activeTask.isConverting
                     ? "Converting..."
@@ -891,23 +887,23 @@ export function ImageConverter() {
                 </span>
               </button>
 
-              <span style={{ fontSize: "13px", color: "var(--text-tertiary)" }}>
-                Instant client-side processing • Zero quality degradation
+              <span style={{ fontSize: "12px", color: "var(--text-tertiary)" }}>
+                Zero upload • 100% in-browser
               </span>
             </div>
 
             {/* Error Message if any */}
             {activeTask.error && (
               <div style={{
-                padding: "14px 18px",
+                padding: "12px 16px",
                 backgroundColor: "#FEF2F2",
                 border: "1px solid #FCA5A5",
                 borderRadius: "var(--radius-md)",
                 color: "#991B1B",
-                fontSize: "13px",
-                marginBottom: "24px",
+                fontSize: "12px",
+                marginBottom: "20px",
               }}>
-                <strong>Conversion Notice:</strong> {activeTask.error}
+                <strong>Notice:</strong> {activeTask.error}
               </div>
             )}
 
@@ -915,35 +911,36 @@ export function ImageConverter() {
             {activeTask.result && (
               <div className="animate-fade-in" style={{
                 borderTop: "1px solid var(--border-light)",
-                paddingTop: "28px",
+                paddingTop: "24px",
               }}>
                 <div style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
                   flexWrap: "wrap",
-                  gap: "14px",
-                  marginBottom: "20px",
+                  gap: "12px",
+                  marginBottom: "18px",
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     <div style={{
-                      width: "32px",
-                      height: "32px",
+                      width: "28px",
+                      height: "28px",
                       borderRadius: "50%",
                       backgroundColor: "var(--success-bg)",
                       color: "var(--success)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      flexShrink: 0,
                     }}>
-                      <CheckCircle2 size={18} />
+                      <CheckCircle2 size={16} />
                     </div>
                     <div>
-                      <h4 style={{ fontSize: "16px", fontWeight: "700", color: "var(--text-primary)" }}>
-                        Successfully Converted to {activeTask.result.targetFormat}
+                      <h4 style={{ fontSize: "15px", fontWeight: "700", color: "var(--text-primary)" }}>
+                        Converted to {activeTask.result.targetFormat}
                       </h4>
-                      <p style={{ fontSize: "12px", color: "var(--text-tertiary)" }}>
-                        Ready for instant download or clipboard copy
+                      <p style={{ fontSize: "11px", color: "var(--text-tertiary)" }}>
+                        Ready for instant download
                       </p>
                     </div>
                   </div>
@@ -953,11 +950,11 @@ export function ImageConverter() {
                     const savings = calculateSavings(activeTask);
                     if (!savings) return null;
                     return (
-                      <div className={savings.isSmaller ? "badge badge-success" : "badge badge-neutral"} style={{ padding: "6px 12px", fontSize: "13px" }}>
+                      <div className={savings.isSmaller ? "badge badge-success" : "badge badge-neutral"} style={{ padding: "5px 10px", fontSize: "12px" }}>
                         <span>
                           {savings.isSmaller
                             ? `Reduced by ${savings.pct}% (${formatBytes(activeTask.metadata.fileSizeBytes)} → ${activeTask.result.formattedSize})`
-                            : `Size: ${activeTask.result.formattedSize} (High Fidelity)`}
+                            : `Size: ${activeTask.result.formattedSize}`}
                         </span>
                       </div>
                     );
@@ -967,27 +964,27 @@ export function ImageConverter() {
                 {/* Side-by-Side Comparison Container */}
                 <div style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                  gap: "20px",
-                  marginBottom: "24px",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: "16px",
+                  marginBottom: "20px",
                 }}>
                   {/* Original Image Card */}
                   <div style={{
                     backgroundColor: "var(--bg-subtle)",
                     borderRadius: "var(--radius-md)",
                     border: "1px solid var(--border-light)",
-                    padding: "16px",
+                    padding: "14px",
                   }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-                      <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--text-secondary)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                      <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--text-secondary)" }}>
                         Original ({activeTask.metadata.detectedFormat.format})
                       </span>
-                      <span style={{ fontSize: "12px", color: "var(--text-tertiary)" }}>
+                      <span style={{ fontSize: "11px", color: "var(--text-tertiary)" }}>
                         {activeTask.metadata.formattedSize}
                       </span>
                     </div>
                     <div style={{
-                      height: "240px",
+                      height: "clamp(160px, 35vw, 220px)",
                       borderRadius: "8px",
                       backgroundColor: "#FFFFFF",
                       border: "1px solid var(--border-light)",
@@ -1009,19 +1006,19 @@ export function ImageConverter() {
                     backgroundColor: "var(--bg-subtle)",
                     borderRadius: "var(--radius-md)",
                     border: "2px solid var(--accent-primary)",
-                    padding: "16px",
+                    padding: "14px",
                     position: "relative",
                   }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-                      <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--accent-primary)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                      <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--accent-primary)" }}>
                         Converted Output ({activeTask.result.targetFormat})
                       </span>
-                      <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--accent-primary)" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--accent-primary)" }}>
                         {activeTask.result.formattedSize}
                       </span>
                     </div>
                     <div style={{
-                      height: "240px",
+                      height: "clamp(160px, 35vw, 220px)",
                       borderRadius: "8px",
                       backgroundColor: "#FFFFFF",
                       border: "1px solid var(--border-light)",
@@ -1040,23 +1037,23 @@ export function ImageConverter() {
                 </div>
 
                 {/* Download and Copy Actions */}
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
                   <button
                     onClick={() => downloadResult(activeTask)}
                     className="btn btn-primary"
-                    style={{ padding: "12px 24px", fontSize: "15px" }}
+                    style={{ padding: "10px 20px", fontSize: "14px", flex: "1 1 auto", minWidth: "160px" }}
                   >
-                    <Download size={16} />
+                    <Download size={15} />
                     <span>Download {activeTask.result.fileName}</span>
                   </button>
 
                   <button
                     onClick={() => copyToClipboard(activeTask)}
                     className="btn btn-secondary"
-                    style={{ padding: "12px 20px" }}
+                    style={{ padding: "10px 16px", flex: "1 1 auto" }}
                   >
-                    {copiedId === activeTask.id ? <Check size={16} color="#166534" /> : <Copy size={16} />}
-                    <span>{copiedId === activeTask.id ? "Copied to Clipboard!" : "Copy to Clipboard"}</span>
+                    {copiedId === activeTask.id ? <Check size={15} color="#166534" /> : <Copy size={15} />}
+                    <span>{copiedId === activeTask.id ? "Copied!" : "Copy Image"}</span>
                   </button>
 
                   <a
@@ -1064,10 +1061,10 @@ export function ImageConverter() {
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-subtle"
-                    style={{ padding: "12px 18px" }}
+                    style={{ padding: "10px 14px" }}
                   >
-                    <Eye size={16} />
-                    <span>Full Preview</span>
+                    <Eye size={15} />
+                    <span>Preview</span>
                   </a>
                 </div>
               </div>

@@ -18,10 +18,10 @@
   --text-inverse: #FFFFFF;
 
   /* Executive Accent Tones (Subtle, Deep, Clean - NO NEON) */
-  --accent-primary: #1E293B;       /* Deep slate/charcoal for primary actions */
+  --accent-primary: #1E293B;
   --accent-primary-hover: #0F172A;
   --accent-soft: #EEF2F6;
-  --accent-blue: #2563EB;          /* Crisp classic blue */
+  --accent-blue: #2563EB;
   --accent-blue-subtle: #EFF6FF;
   --accent-blue-border: #BFDBFE;
 
@@ -81,6 +81,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* Typography Utilities */
@@ -109,6 +110,12 @@ button {
 
 input, select, textarea {
   font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Container */
@@ -275,6 +282,69 @@ input, select, textarea {
   font-size: 16px;
   color: var(--text-secondary);
   line-height: 1.6;
+}
+
+/* Responsive Utilities */
+.desktop-only {
+  display: flex !important;
+}
+
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .section-padding {
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+
+  .section-header {
+    margin-bottom: 32px;
+  }
+
+  .section-title {
+    font-size: 26px;
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .btn-lg {
+    padding: 12px 20px;
+    font-size: 15px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
 }
 
 /* Scrollbar */
