@@ -1,3 +1,5 @@
+import { formatBytes } from "./imageDetector";
+
 export interface ConversionOptions {
   targetFormat: string; // "PNG" | "JPEG" | "WEBP" | "AVIF" | "BMP" | "ICO" | "GIF" | "SVG" | "TIFF"
   quality: number; // 0.1 to 1.0 (for JPEG, WEBP, AVIF)
@@ -385,11 +387,7 @@ export async function convertImage(
   const outFileName = `${baseName}.${targetInfo.ext}`;
   const dataUrl = URL.createObjectURL(outputBlob);
 
-  const k = 1024;
-  const dm = 1;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
-  const i = outputBlob.size === 0 ? 0 : Math.floor(Math.log(outputBlob.size) / Math.log(k));
-  const formattedSize = `${parseFloat((outputBlob.size / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+  const formattedSize = formatBytes(outputBlob.size);
 
   return {
     blob: outputBlob,
